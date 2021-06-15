@@ -13,12 +13,13 @@ class LocationForm extends React.Component {
       };
     }
 
-  hangleChange = e => {
+  handleChange = e => {
     this.setState({city: e.target.value})
   }
 
   handleSubmit = async e => {
     e.preventDefault();
+    console.log(this.city);
     const response = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.city}&format=json`)
     const cityInfo = response.data[0];
     let displayName = cityInfo.display_name;
@@ -35,6 +36,7 @@ class LocationForm extends React.Component {
           <input name="city" onChange={this.handleChange} />
           <Button variant="primary">Explore!</Button>
         </Form>
+        <h2>{this.state.displayName}</h2>
       </>
     )
   }

@@ -19,7 +19,7 @@ class LocationForm extends React.Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    const response = await axios.get(`https://us1.locationiq.com/v1/search.php?${process.env.REACT_APP_CITY_KEY}&q=${this.state.city}&format=json`)
+    const response = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.city}&format=json`)
     const cityInfo = response.data[0];
     let displayName = cityInfo.display_name;
     this.setState({displayName});

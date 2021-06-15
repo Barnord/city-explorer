@@ -31,7 +31,7 @@ class LocationForm extends React.Component {
     return(
       <>
         <p>Type in a city name</p>
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           <input name="city" onChange={this.handleChange} />
           <Button variant="primary">Explore!</Button>
         </Form>

@@ -1,3 +1,19 @@
+.card {
+  margin: 10em auto;
+}
+
+#root {
+  margin: 2em auto;
+}
+
+* {
+  background-color: blanchedalmond;
+}
+
+.card-header, .card-footer {
+  background-color: coral;
+}
+
 .App {
   text-align: center;
 }

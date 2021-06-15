@@ -23,6 +23,7 @@ class LocationForm extends React.Component {
     const cityInfo = response.data[0];
     let displayName = cityInfo.display_name;
     this.setState({displayName});
+    console.log(cityInfo);
   }
   
 

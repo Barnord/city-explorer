@@ -17,6 +17,7 @@ class LocationForm extends React.Component {
         mapImgPath: '',
         errorCode: '',
         weatherPath: '',
+        weather: '',
       };
     }
 
@@ -27,15 +28,18 @@ class LocationForm extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     try{
-    const location = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.city}&format=json`)
-    const cityInfo = location.data[0];
-    let displayName = cityInfo.display_name;
-    this.setState({displayName});
-    this.setState({lat: cityInfo.lat})
-    this.setState({lon: cityInfo.lon})
-    this.setState({mapImgPath: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${cityInfo.lat},${cityInfo.lon}&zoom=12`})
-    this.setState({weatherPath: `http://localhost:3001/weather?lat=${this.lat}&lon=${this.lon}&q=${this.displayName}`})
-    // const weatherData = await axios.get(`${this.state.weatherPath}`)
+    // const location = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.city}&format=json`)
+    // const cityInfo = location.data[0];
+    // let displayName = cityInfo.display_name;
+    // this.setState({displayName});
+    // this.setState({lat: cityInfo.lat})
+    // this.setState({lon: cityInfo.lon})
+    // this.setState({mapImgPath: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${cityInfo.lat},${cityInfo.lon}&zoom=12`})
+    // this.setState({weatherPath: `http://localhost:3001/weather?lat=${this.lat}&lon=${this.lon}&q=${this.displayName}`})
+    this.setState({weatherPath:`http://localhost:3001/weather?lat=47.60621&lon=-122.33207&q=Seattle`})
+    const weatherData = await axios.get(this.state.weatherPath)
+    this.setState({weather: weatherData})
+    console.log(weatherData)
     }
     catch(err) {
       console.log('err.message');
@@ -51,6 +55,7 @@ class LocationForm extends React.Component {
           <input name="city" placeholder="Type in a city name" onChange={this.handleChange} />
           <Button variant="primary" type="submit">Explore!</Button>
         </Form>
+        <p>{this.weather}</p>
         {this.state.errorCode.length>0?
         <Container>
             <p>{this.state.errorCode}</p>

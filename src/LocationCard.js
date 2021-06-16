@@ -11,7 +11,7 @@ class LocationCard extends React.Component {
             <Card.Title>{this.props.displayName}</Card.Title>
           </Card.Header>
           <Card.Body>
-            <Card.Img variant="top" src={this.props.imgPath} />
+            <Card.Img variant="top" src={this.props.mapImgPath} />
           </Card.Body>
           <Card.Footer>
             <Card.Text>{`Latitude: ${this.props.lat} Longitude: ${this.props.lon}`}</Card.Text>

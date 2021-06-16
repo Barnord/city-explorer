@@ -14,8 +14,9 @@ class LocationForm extends React.Component {
         displayName: '',
         lat: '',
         lon: '',
-        imgPath: '',
+        mapImgPath: '',
         errorCode: '',
+        weatherPath: '',
       };
     }
 
@@ -26,13 +27,15 @@ class LocationForm extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     try{
-    const response = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.city}&format=json`)
-    const cityInfo = response.data[0];
+    const location = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.city}&format=json`)
+    const cityInfo = location.data[0];
     let displayName = cityInfo.display_name;
     this.setState({displayName});
     this.setState({lat: cityInfo.lat})
     this.setState({lon: cityInfo.lon})
-    this.setState({imgPath: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${cityInfo.lat},${cityInfo.lon}&zoom=12`})
+    this.setState({mapImgPath: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${cityInfo.lat},${cityInfo.lon}&zoom=12`})
+    this.setState({weatherPath: `http://localhost:3001/weather?lat=${this.lat}&lon=${this.lon}&q=${this.displayName}`})
+    // const weatherData = await axios.get(`${this.state.weatherPath}`)
     }
     catch(err) {
       console.log('err.message');
@@ -55,7 +58,7 @@ class LocationForm extends React.Component {
         :
         <LocationCard
         displayName={this.state.displayName}
-        imgPath={this.state.imgPath}
+        mapImgPath={this.state.mapImgPath}
         lat={this.state.lat}
         lon={this.state.lon} />
         }

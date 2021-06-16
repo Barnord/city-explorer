@@ -35,7 +35,7 @@ class LocationForm extends React.Component {
     this.setState({lon: cityInfo.lon})
     this.setState({mapImgPath: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${cityInfo.lat},${cityInfo.lon}&zoom=12`})
     this.setState({weatherPath: `http://localhost:3001/weather?lat=${this.lat}&lon=${this.lon}&q=${this.displayName}`})
-    const weatherData = await axios.get(`${this.state.weatherPath}`)
+    // const weatherData = await axios.get(`${this.state.weatherPath}`)
     }
     catch(err) {
       console.log('err.message');

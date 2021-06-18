@@ -7,6 +7,7 @@ import axios from'axios';
 import Weather from './weather'
 
 
+
 class LocationForm extends React.Component {
   constructor(props) {
     super(props) 
@@ -19,6 +20,7 @@ class LocationForm extends React.Component {
         errorCode: '',
         weatherPath: '',
         weather: [],
+        display: '',
       };
     }
 
@@ -29,18 +31,23 @@ class LocationForm extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     try{
+    this.setState({display: ''})
     const location = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.city}&format=json`)
     const cityInfo = location.data[0];
     let displayName = cityInfo.display_name;
     this.setState({displayName});
     this.setState({lat: cityInfo.lat})
     this.setState({lon: cityInfo.lon})
+
+
     this.setState({mapImgPath: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${cityInfo.lat},${cityInfo.lon}&zoom=12`})
-    this.setState({weatherPath: `http://localhost:3001/weather?lat=${this.lat}&lon=${this.lon}&q=${this.displayName}`})
-    this.setState({weatherPath:`http://localhost:3001/weather?lat=${this.state.lat}&lon=${this.state.lon}&q=${this.state.displayName}`})
-    const weatherData = await axios.get(this.state.weatherPath)
+
+
+    const weatherData = await axios.get(`http://localhost:3001/weather?lat=${this.state.lat}&lon=${this.state.lon}&q=${this.state.displayName}`)
+
     this.setState({weather: weatherData.data})
     console.log(this.state.weather)
+
     }
     catch(err) {
       console.log('err.message');
@@ -50,7 +57,6 @@ class LocationForm extends React.Component {
   
 
   render() {
-    // let display = this.state.weather.forEach(i => <Weather weatherData={this.state.weather[i]} />)
     return(
       <>
         <Form onSubmit={this.handleSubmit}>
@@ -69,8 +75,8 @@ class LocationForm extends React.Component {
           mapImgPath={this.state.mapImgPath}
           lat={this.state.lat}
           lon={this.state.lon} />
-          {/* {display} */}
-          <Weather weatherData={this.state.weather[5]} />
+          {/* {this.state.display} */}
+          <Weather weatherData={this.state.weather} />
         </>
         }
       </>

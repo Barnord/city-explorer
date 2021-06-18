@@ -1,24 +1,22 @@
 import React from'react';
 import Card from 'react-bootstrap/Card'
+import CardColumns from 'react-bootstrap/CardColumns';
 
 class Weather extends React.Component {
-  // constructor(props) {
-  //   super(props)
-  // }
   render() {
-      // const display = this.props.weatherData.forEach(i => {
-      // <Card style={{ width: '10%' }}>
-      //   <Card.Title>{i.date}</Card.Title>
-      //   <Card.Text>{i.description}</Card.Text>
-      // </Card>
-    // })
-console.log(this.props.weatherData)
+    
+    let display = this.props.weatherData.map(x => {
+        return (<Card>
+          <Card.Title>{x.date}</Card.Title>
+          <Card.Text>{x.description}</Card.Text>
+        </Card>)
+    })
+console.log(display)
     return(
       <>
-        <Card>
-        <Card.Title>{this.props.weatherData.date}</Card.Title>
-        <Card.Text>{this.props.weatherData.description}</Card.Text>
-      </Card>
+      <CardColumns>
+        {display}
+      </CardColumns>
       </>
     )
   }

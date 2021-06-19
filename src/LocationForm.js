@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import LocationCard from './LocationCard';
 import axios from'axios';
 import Weather from './weather'
+import Movie from './movie'
 
 
 
@@ -21,6 +22,7 @@ class LocationForm extends React.Component {
         weatherPath: '',
         weather: [],
         display: '',
+        movies: []
       };
     }
 
@@ -43,10 +45,13 @@ class LocationForm extends React.Component {
     this.setState({mapImgPath: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${cityInfo.lat},${cityInfo.lon}&zoom=12`})
 
 
-    const weatherData = await axios.get(`http://localhost:3001/weather?lat=${this.state.lat}&lon=${this.state.lon}&q=${this.state.displayName}`)
+    const weatherData = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}&q=${this.state.displayName}`)
 
     this.setState({weather: weatherData.data})
-    console.log(this.state.weather)
+    
+    const movieData = await axios.get(`http://localhost:3001/movies?city=${this.state.city}`)
+
+    this.setState({movies: movieData.data})
 
     }
     catch(err) {
@@ -75,8 +80,8 @@ class LocationForm extends React.Component {
           mapImgPath={this.state.mapImgPath}
           lat={this.state.lat}
           lon={this.state.lon} />
-          {/* {this.state.display} */}
           <Weather weatherData={this.state.weather} />
+          <Movie movieData={this.state.movies} />
         </>
         }
       </>
